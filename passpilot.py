@@ -1,26 +1,3 @@
-"""
-PassPilot Supreme: The Ultimate Password Security Toolkit
-=========================================================
-
-A professional-grade password management application with advanced security
-features, beautiful modern UI, and comprehensive password analysis tools.
-
-Revolutionary Features:
-- 🎨 Modern, glassmorphic UI with dark/light themes
-- 🔐 Military-grade password generation with multiple presets
-- 📊 Real-time advanced strength analysis with visual feedback
-- 🌐 Pwned Passwords API integration with k-anonymity
-- 📝 Secure password history (session-only, in-memory)
-- 🎯 Password pattern detection and suggestions
-- 🔍 Zxcvbn-inspired strength estimation
-- 📋 Smart clipboard management with auto-clear
-- 💾 Export passwords securely
-- ⚡ Keyboard shortcuts for power users
-- 🎭 Password masking toggle
-- 📈 Detailed entropy breakdown
-- 🎪 Password generator presets (Memorable, Maximum Security, etc.)
-"""
-
 import tkinter as tk
 from tkinter import ttk, messagebox, scrolledtext
 import string
@@ -37,7 +14,7 @@ import gettext
 import locale
 import os
 
-# Internationalization setup
+# # Internationalization setup (Kept as per your instruction)
 locale.setlocale(locale.LC_ALL, '')
 lang = locale.getlocale()[0]
 if lang and lang.startswith('hi'):
@@ -49,7 +26,7 @@ localedir = os.path.join(os.path.dirname(__file__), 'locale')
 gettext.install('passpilot', localedir, names=['ngettext'])
 _ = gettext.gettext
 
-# --- Advanced Password Generator ---
+# --- Advanced Password Generator (No changes needed) ---
 
 class AdvancedPasswordGenerator:
     """Next-generation password generator with intelligent algorithms."""
@@ -140,7 +117,7 @@ class AdvancedPasswordGenerator:
         if len(self.history) > self.max_history:
             self.history.pop()
 
-# --- Advanced Password Analyzer ---
+# --- Advanced Password Analyzer (Updated strength colors for monochrome) ---
 
 class AdvancedPasswordAnalyzer:
     """Comprehensive password analysis with pattern detection."""
@@ -213,23 +190,24 @@ class AdvancedPasswordAnalyzer:
             return "millions of years+"
     
     def get_strength_feedback(self, entropy):
-        """Enhanced strength classification."""
+        """Enhanced strength classification with monochrome/high-contrast colors."""
+        # Using a gradient of high-contrast colors (Red/Yellow/Green) over a dark background
         if entropy < 28:
-            return _("Critical"), "#c0392b", 0
+            return _("Critical"), "#D9534F", 0 # High contrast Red
         elif entropy < 36:
-            return _("Very Weak"), "#e74c3c", 1
+            return _("Very Weak"), "#EEA236", 1 # High contrast Orange
         elif entropy < 50:
-            return _("Weak"), "#e67e22", 2
+            return _("Weak"), "#F0AD4E", 2
         elif entropy < 65:
-            return _("Fair"), "#f39c12", 3
+            return _("Fair"), "#F0E68C", 3 # Light Yellow
         elif entropy < 80:
-            return _("Good"), "#f1c40f", 4
+            return _("Good"), "#5BC0DE", 4 # Light Blue (better contrast than true yellow)
         elif entropy < 100:
-            return _("Strong"), "#2ecc71", 5
+            return _("Strong"), "#5CB85C", 5 # High contrast Green
         elif entropy < 120:
-            return _("Very Strong"), "#27ae60", 6
+            return _("Very Strong"), "#47A447", 6
         else:
-            return _("Exceptional"), "#16a085", 7
+            return _("Exceptional"), "#337AB7", 7 # Dark Blue (used for exceptional)
     
     def get_suggestions(self, password):
         """Provide intelligent improvement suggestions."""
@@ -276,7 +254,7 @@ class AdvancedPasswordAnalyzer:
         except Exception as e:
             return None, f"Error: {e}"
 
-# --- Modern UI Application ---
+# --- Modern UI Application (Themed for Monochrome Dark Mode) ---
 
 class PassPilotSupreme(tk.Tk):
     """The ultimate password management interface."""
@@ -291,8 +269,8 @@ class PassPilotSupreme(tk.Tk):
         self.resizable(True, True)
         
         # Theme variables
-        self.dark_mode = tk.BooleanVar(value=True)
-        self.show_password = tk.BooleanVar(value=True)
+        self.dark_mode = tk.BooleanVar(value=True) # Default to Dark Mode
+        self.show_password = tk.BooleanVar(value=False) # Default to masked
         self.exclude_ambiguous = tk.BooleanVar(value=False)
 
         # Language variable
@@ -319,72 +297,106 @@ class PassPilotSupreme(tk.Tk):
         self.style.theme_use('clam')
     
     def apply_theme(self):
-        """Apply dark or light theme."""
-        if self.dark_mode.get():
-            # Dark theme
-            bg = "#1a1a2e"
-            fg = "#eee"
-            accent = "#0f3460"
-            highlight = "#16213e"
-            button_bg = "#e94560"
-            
-            self.configure(bg=bg)
-            self.style.configure("TFrame", background=bg)
-            self.style.configure("TLabel", background=bg, foreground=fg, font=("Segoe UI", 10))
-            self.style.configure("Title.TLabel", font=("Segoe UI", 18, "bold"), foreground="#e94560")
-            self.style.configure("Subtitle.TLabel", font=("Segoe UI", 11, "bold"))
-            self.style.configure("TButton", font=("Segoe UI", 10, "bold"), background=button_bg, foreground="white")
-            self.style.map("TButton", background=[('active', '#d63447')])
-            self.style.configure("TCheckbutton", background=bg, foreground=fg, font=("Segoe UI", 9))
-            self.style.configure("TLabelframe", background=bg, foreground=fg, bordercolor=accent)
-            self.style.configure("TLabelframe.Label", background=bg, foreground="#e94560", font=("Segoe UI", 11, "bold"))
-            self.style.configure("TNotebook", background=bg, bordercolor=accent)
-            self.style.configure("TNotebook.Tab", background=accent, foreground=fg, padding=[20, 10])
-            self.style.map("TNotebook.Tab", background=[('selected', button_bg)], foreground=[('selected', 'white')])
-        else:
-            # Light theme
-            bg = "#f8f9fa"
-            fg = "#212529"
-            accent = "#dee2e6"
-            highlight = "#e9ecef"
-            button_bg = "#0d6efd"
-            
-            self.configure(bg=bg)
-            self.style.configure("TFrame", background=bg)
-            self.style.configure("TLabel", background=bg, foreground=fg, font=("Segoe UI", 10))
-            self.style.configure("Title.TLabel", font=("Segoe UI", 18, "bold"), foreground=button_bg)
-            self.style.configure("Subtitle.TLabel", font=("Segoe UI", 11, "bold"))
-            self.style.configure("TButton", font=("Segoe UI", 10, "bold"), background=button_bg, foreground="white")
-            self.style.configure("TCheckbutton", background=bg, foreground=fg, font=("Segoe UI", 9))
-            self.style.configure("TLabelframe", background=bg, foreground=fg, bordercolor=accent)
-            self.style.configure("TLabelframe.Label", background=bg, foreground=button_bg, font=("Segoe UI", 11, "bold"))
+        """Apply the premium monochrome dark or light theme."""
+        
+        # --- THEME PALETTES ---
+        
+        MONOCHROME_DARK = {
+            "bg": "#121212",      # Deep Black (Primary Background)
+            "fg": "#FFFFFF",      # Pure White (Primary Foreground)
+            "accent": "#CCCCCC",  # Light Gray (Borders, Separators)
+            "highlight": "#333333",# Dark Gray (Active/Hover Background)
+            "button_bg": "#FFFFFF", # White Button Background
+            "button_fg": "#000000", # Black Button Text
+            "input_bg": "#222222", # Slightly Lighter Black for input
+            "input_fg": "#FFFFFF",
+            "title_fg": "#FFFFFF", # White Title
+            "password_fg": "#FFFFFF" # White Password Text
+        }
+        
+        MONOCHROME_LIGHT = {
+            "bg": "#FFFFFF",      # Pure White (Primary Background)
+            "fg": "#000000",      # Pure Black (Primary Foreground)
+            "accent": "#333333",  # Dark Gray (Borders, Separators)
+            "highlight": "#DDDDDD",# Light Gray (Active/Hover Background)
+            "button_bg": "#000000", # Black Button Background
+            "button_fg": "#FFFFFF", # White Button Text
+            "input_bg": "#EEEEEE", # Light Gray for input
+            "input_fg": "#000000",
+            "title_fg": "#000000", # Black Title
+            "password_fg": "#000000" # Black Password Text
+        }
+
+        theme = MONOCHROME_DARK if self.dark_mode.get() else MONOCHROME_LIGHT
+        
+        # --- APPLY STYLES ---
+
+        self.configure(bg=theme["bg"])
+        
+        # Standard Widgets
+        self.style.configure("TFrame", background=theme["bg"])
+        self.style.configure("TLabel", background=theme["bg"], foreground=theme["fg"], font=("Helvetica", 10))
+        self.style.configure("TCheckbutton", background=theme["bg"], foreground=theme["fg"], font=("Helvetica", 9))
+        self.style.configure("TScrollbar", background=theme["highlight"], troughcolor=theme["bg"])
+        self.style.configure("TScale", background=theme["bg"])
+
+        # Typography
+        self.style.configure("Title.TLabel", font=("Helvetica", 18, "bold"), foreground=theme["title_fg"])
+        self.style.configure("Subtitle.TLabel", font=("Helvetica", 11, "bold"))
+        self.style.configure("Status.TLabel", background=theme["highlight"], foreground=theme["fg"])
+
+        # Buttons
+        self.style.configure("TButton", font=("Helvetica", 10, "bold"), background=theme["button_bg"], foreground=theme["button_fg"], borderwidth=0)
+        self.style.map("TButton", 
+                       background=[('active', theme["highlight"])],
+                       foreground=[('active', theme["fg"])])
+
+        # Labelframe (Section Headers)
+        self.style.configure("TLabelframe", background=theme["bg"], foreground=theme["fg"], bordercolor=theme["accent"], relief="flat")
+        self.style.configure("TLabelframe.Label", background=theme["bg"], foreground=theme["accent"], font=("Helvetica", 11, "bold"))
+
+        # Notebook (Tabs)
+        self.style.configure("TNotebook", background=theme["bg"], bordercolor=theme["accent"])
+        self.style.configure("TNotebook.Tab", background=theme["highlight"], foreground=theme["fg"], padding=[20, 8], font=("Helvetica", 10))
+        self.style.map("TNotebook.Tab", 
+                       background=[('selected', theme["bg"])], 
+                       foreground=[('selected', theme["fg"])])
+                       
+        # Scrolled Text / Listbox
+        self.style.configure("ScrolledText", background=theme["input_bg"], foreground=theme["input_fg"])
+        # Manual configuration for non-themed widgets
+        self.password_entry.config(bg=theme["input_bg"], fg=theme["password_fg"], insertbackground=theme["fg"], highlightcolor=theme["accent"], highlightthickness=1)
+        self.analyze_entry.config(bg=theme["input_bg"], fg=theme["input_fg"], insertbackground=theme["fg"], highlightcolor=theme["accent"], highlightthickness=1)
+        self.suggestions_text.config(bg=theme["input_bg"], fg=theme["input_fg"], insertbackground=theme["fg"], bd=0)
+        self.history_listbox.config(bg=theme["input_bg"], fg=theme["input_fg"], selectbackground=theme["highlight"], selectforeground=theme["fg"], bd=0)
+        self.strength_canvas.config(bg=theme["input_bg"])
     
     def create_menu(self):
         """Create application menu bar."""
-        menubar = tk.Menu(self)
+        menubar = tk.Menu(self, background="#333333", foreground="#FFFFFF")
         self.config(menu=menubar)
         
         # File menu
-        file_menu = tk.Menu(menubar, tearoff=0)
+        file_menu = tk.Menu(menubar, tearoff=0, bg="#333333", fg="#FFFFFF")
         menubar.add_cascade(label=_("File"), menu=file_menu)
         file_menu.add_command(label=_("Export History"), command=self.export_history)
         file_menu.add_separator()
         file_menu.add_command(label=_("Exit"), command=self.quit)
 
         # View menu
-        view_menu = tk.Menu(menubar, tearoff=0)
+        view_menu = tk.Menu(menubar, tearoff=0, bg="#333333", fg="#FFFFFF")
         menubar.add_cascade(label=_("View"), menu=view_menu)
         view_menu.add_checkbutton(label=_("Dark Mode"), variable=self.dark_mode, command=self.apply_theme)
         view_menu.add_checkbutton(label=_("Show Passwords"), variable=self.show_password, command=self.toggle_password_visibility)
 
         # Language submenu
-        lang_menu = tk.Menu(view_menu, tearoff=0)
+        lang_menu = tk.Menu(view_menu, tearoff=0, bg="#333333", fg="#FFFFFF")
         view_menu.add_cascade(label=_("Language"), menu=lang_menu)
         lang_menu.add_radiobutton(label="English", variable=self.language_var, value="en", command=self.change_language)
         lang_menu.add_radiobutton(label="हिंदी (Hindi)", variable=self.language_var, value="hi", command=self.change_language)
 
         # Help menu
-        help_menu = tk.Menu(menubar, tearoff=0)
+        help_menu = tk.Menu(menubar, tearoff=0, bg="#333333", fg="#FFFFFF")
         menubar.add_cascade(label=_("Help"), menu=help_menu)
         help_menu.add_command(label=_("Keyboard Shortcuts"), command=self.show_help)
         help_menu.add_command(label=_("About"), command=self.show_about)
@@ -397,7 +409,7 @@ class PassPilotSupreme(tk.Tk):
         
         ttk.Label(header, text="🔐 PassPilot Supreme", style="Title.TLabel").pack()
         ttk.Label(header, text=_("Military-Grade Password Security Toolkit"),
-                 font=("Segoe UI", 9, "italic")).pack()
+                 font=("Helvetica", 9, "italic")).pack()
         
         # Notebook for tabs
         self.notebook = ttk.Notebook(self)
@@ -413,8 +425,10 @@ class PassPilotSupreme(tk.Tk):
         self.create_history_tab()
         
         # Status bar
-        self.status_bar = ttk.Label(self, text=_("Ready"), relief="sunken", anchor="w")
+        self.status_bar = ttk.Label(self, text=_("Ready"), relief="flat", anchor="w", style="Status.TLabel")
         self.status_bar.pack(side="bottom", fill="x")
+
+    # --- Generator Tab ---
     
     def create_generator_tab(self):
         """Create password generator tab."""
@@ -449,7 +463,7 @@ class PassPilotSupreme(tk.Tk):
         self.length_scale = ttk.Scale(length_frame, from_=4, to_=128, orient="horizontal", 
                                      variable=self.length_var, command=self._update_length_label)
         self.length_scale.pack(side="left", fill="x", expand=True, padx=5)
-        self.length_label = ttk.Label(length_frame, text="16", font=("Segoe UI", 10, "bold"), width=5)
+        self.length_label = ttk.Label(length_frame, text="16", font=("Helvetica", 10, "bold"), width=5)
         self.length_label.pack(side="left", padx=(10, 0))
         
         # Character options
@@ -472,7 +486,7 @@ class PassPilotSupreme(tk.Tk):
         output_frame.pack(fill="x", pady=(0, 15))
         
         self.password_entry = tk.Entry(output_frame, font=("Consolas", 14, "bold"), 
-                                      justify="center", fg="#2ecc71", bd=0, relief="flat")
+                                      justify="center", bd=0, relief="flat")
         self.password_entry.pack(fill="x", ipady=10)
         
         # Buttons
@@ -485,6 +499,8 @@ class PassPilotSupreme(tk.Tk):
                   command=self.generate_passphrase).pack(fill="x", pady=2)
         ttk.Button(btn_frame, text="📋 " + _("Copy to Clipboard (Ctrl+C)"),
                   command=self.copy_to_clipboard).pack(fill="x", pady=2)
+
+    # --- Analyzer Tab ---
     
     def create_analyzer_tab(self):
         """Create password analyzer tab."""
@@ -503,18 +519,18 @@ class PassPilotSupreme(tk.Tk):
         self.analyze_entry_var = tk.StringVar()
         self.analyze_entry_var.trace_add("write", self.analyze_password)
         self.analyze_entry = tk.Entry(input_frame, font=("Consolas", 12), 
-                                     textvariable=self.analyze_entry_var, show="")
+                                     textvariable=self.analyze_entry_var, show="•") # Default to masked
         self.analyze_entry.pack(fill="x", ipady=5)
         
         # Strength visualization
         viz_frame = ttk.LabelFrame(container, text=_("Strength Visualization"), padding=15)
         viz_frame.pack(fill="x", pady=(0, 15))
 
-        self.strength_canvas = tk.Canvas(viz_frame, height=40, bg="#2c3e50", highlightthickness=0)
+        self.strength_canvas = tk.Canvas(viz_frame, height=40, highlightthickness=0)
         self.strength_canvas.pack(fill="x", pady=(0, 10))
 
         self.feedback_label = ttk.Label(viz_frame, text=_("Enter a password to analyze"),
-                                       font=("Segoe UI", 12, "bold"), anchor="center")
+                                       font=("Helvetica", 12, "bold"), anchor="center")
         self.feedback_label.pack(fill="x")
         
         # Detailed metrics
@@ -535,7 +551,7 @@ class PassPilotSupreme(tk.Tk):
         suggest_frame.pack(fill="both", expand=True, pady=(0, 15))
         
         self.suggestions_text = scrolledtext.ScrolledText(suggest_frame, height=6, 
-                                                         font=("Segoe UI", 9), wrap="word")
+                                                         font=("Helvetica", 9), wrap="word", bd=0)
         self.suggestions_text.pack(fill="both", expand=True)
         
         # Breach check
@@ -546,8 +562,10 @@ class PassPilotSupreme(tk.Tk):
                   command=self.check_pwned_threaded).pack(fill="x", pady=2)
         
         self.pwned_label = ttk.Label(breach_frame, text="", anchor="center", 
-                                    font=("Segoe UI", 10, "bold"))
+                                    font=("Helvetica", 10, "bold"))
         self.pwned_label.pack(fill="x", pady=5)
+
+    # --- History Tab ---
     
     def create_history_tab(self):
         """Create password history tab."""
@@ -561,7 +579,7 @@ class PassPilotSupreme(tk.Tk):
                   style="Subtitle.TLabel").pack(pady=(0, 10))
 
         ttk.Label(container, text="⚠️ " + _("Passwords are stored only for this session and are never written to disk."),
-                  font=("Segoe UI", 9, "italic")).pack(pady=(0, 10))
+                  font=("Helvetica", 9, "italic")).pack(pady=(0, 10))
         
         # History listbox
         hist_frame = ttk.Frame(container)
@@ -571,7 +589,7 @@ class PassPilotSupreme(tk.Tk):
         scrollbar.pack(side="right", fill="y")
         
         self.history_listbox = tk.Listbox(hist_frame, font=("Consolas", 10), 
-                                         yscrollcommand=scrollbar.set, selectmode="single")
+                                         yscrollcommand=scrollbar.set, selectmode="single", bd=0)
         self.history_listbox.pack(side="left", fill="both", expand=True)
         scrollbar.config(command=self.history_listbox.yview)
         
@@ -586,6 +604,8 @@ class PassPilotSupreme(tk.Tk):
         ttk.Button(btn_frame, text="🗑️ " + _("Clear History"),
                   command=self.clear_history).pack(side="left", padx=2, fill="x", expand=True)
     
+    # --- UI Logic (No changes to functionality, only theme/config) ---
+
     def _update_length_label(self, value):
         """Update length display."""
         self.length_label.config(text=f"{int(float(value))}")
@@ -665,7 +685,7 @@ class PassPilotSupreme(tk.Tk):
         
         if not password:
             self.strength_canvas.delete("all")
-            self.feedback_label.config(text=_("Enter a password to analyze"), foreground="#95a5a6")
+            self.feedback_label.config(text=_("Enter a password to analyze"), foreground="#CCCCCC")
             self.entropy_label.config(text=_("Entropy: - bits"))
             self.crack_time_label.config(text=_("Est. crack time: -"))
             self.char_entropy_label.config(text=_("Character diversity: -"))
@@ -705,17 +725,19 @@ class PassPilotSupreme(tk.Tk):
         
         self.strength_canvas.delete("all")
         
-        # Background
-        self.strength_canvas.create_rectangle(0, 0, width, height, fill="#34495e", outline="")
+        # Background: A slightly darker gray for the bar container
+        bg_color = "#222222" if self.dark_mode.get() else "#EEEEEE"
+        self.strength_canvas.create_rectangle(0, 0, width, height, fill=bg_color, outline="")
         
         # Strength bar
         bar_width = (width / 7) * (level + 1)
         self.strength_canvas.create_rectangle(0, 0, bar_width, height, fill=color, outline="")
         
         # Grid lines
+        line_color = "#121212" if self.dark_mode.get() else "#CCCCCC"
         for i in range(8):
             x = (width / 7) * i
-            self.strength_canvas.create_line(x, 0, x, height, fill="#2c3e50", width=2)
+            self.strength_canvas.create_line(x, 0, x, height, fill=line_color, width=1)
     
     def check_pwned_threaded(self):
         """Check password breach status in background thread."""
@@ -724,7 +746,7 @@ class PassPilotSupreme(tk.Tk):
             messagebox.showinfo(_("Info"), _("Please enter a password to check."))
             return
 
-        self.pwned_label.config(text="🔄 " + _("Checking..."), foreground="#3498db")
+        self.pwned_label.config(text="🔄 " + _("Checking..."), foreground="#FFFFFF")
         self.status_bar.config(text=_("Checking breach database..."))
         
         # Run in thread to avoid blocking UI
@@ -742,15 +764,15 @@ class PassPilotSupreme(tk.Tk):
     def update_pwned_result(self, count, error):
         """Update UI with breach check results."""
         if error:
-            self.pwned_label.config(text="❌ " + error, foreground="#e74c3c")
+            self.pwned_label.config(text="❌ " + error, foreground="#D9534F")
             self.status_bar.config(text=_("Breach check failed"))
         elif count > 0:
             msg = _("⚠️ EXPOSED! Found {0} times in breaches").format(f"{count:,}")
-            self.pwned_label.config(text=msg, foreground="#e74c3c")
+            self.pwned_label.config(text=msg, foreground="#D9534F")
             self.status_bar.config(text=_("Password is compromised!"))
         else:
             msg = _("✅ Safe! Not found in known breaches")
-            self.pwned_label.config(text=msg, foreground="#2ecc71")
+            self.pwned_label.config(text=msg, foreground="#5CB85C")
             self.status_bar.config(text=_("Password passed breach check"))
     
     def refresh_history(self):
@@ -841,7 +863,7 @@ class PassPilotSupreme(tk.Tk):
         ✓ Breach database integration
         ✓ Smart suggestions
         ✓ Secure clipboard management
-        ✓ Beautiful modern interface
+        ✓ Beautiful modern interface (Monochrome Theme)
 
         Built with Python & Tkinter
         © 2025 PassPilot Supreme
